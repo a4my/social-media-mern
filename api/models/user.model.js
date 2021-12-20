@@ -7,14 +7,15 @@ const userSchema = new mongoose.Schema(
     pseudo: {
       type: String,
       required: true,
-      minLength: 3,
-      maxLength: 50,
+      minlength: 3,
+      maxlength: 50,
       unique: true,
       trim: true
     },
     email: {
       type: String,
       required: true,
+      unique: true,
       validate: [isEmail],
       lowercase: true,
       trim: true
@@ -22,8 +23,8 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      maxLength: 1000,
-      minLength: 6
+      maxlength: 1000,
+      minlength: 6
     },
     picture: {
       type: String,
@@ -31,7 +32,7 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
-      maxLength: 1000
+      maxlength: 1000
     },
     followers: {
       type: [String]
