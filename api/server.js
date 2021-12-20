@@ -5,7 +5,7 @@ const userRoutes = require('./routes/user.routes')
 require('dotenv').config({ path: './config/.env' })
 require('./config/db')
 const app = express()
-const { checkUser } = require('./middleware/auth.middleware')
+const { checkUser, requireAuth } = require('./middleware/auth.middleware')
 
 // Middleware
 app.use(bodyParser.json())
@@ -14,6 +14,9 @@ app.use(cookieParser())
 
 // JWT
 app.get('*', checkUser)
+app.get('/jwtid', requireAuth, (req, res) => {
+  res.status(200).send(res.locals.user._id)
+})
 
 // user routes
 app.use('/api/user', userRoutes)
