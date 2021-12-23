@@ -4,12 +4,32 @@ const { promisify } = require('util')
 const pipeline = promisify(require('stream').pipeline)
 const { uploadErrors } = require('../utils/errors.utils')
 
+// // Storage destination for post file upload
+// const storagePost = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'public/images')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, req.body.name)
+//   }
+// })
+
+// // Share a file in a post
+// const upload = multer({ storage: storagePost })
+// app.post('/api/upload', upload.single('file'), (req, res) => {
+//   try {
+//     return res.status(200).json('File uploaded successfully')
+//   } catch (error) {
+//     console.error(error)
+//   }
+// })
+
 module.exports.uploadProfil = async (req, res) => {
   try {
     if (
-      req.file.detectedMimeType != 'image/jpg' &&
-      req.file.detectedMimeType != 'image/png' &&
-      req.file.detectedMimeType != 'image/jpeg'
+      req.file.detectedMimeType !== 'image/jpg' &&
+      req.file.detectedMimeType !== 'image/png' &&
+      req.file.detectedMimeType !== 'image/jpeg'
     )
       throw Error('invalid file')
 
