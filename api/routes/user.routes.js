@@ -2,8 +2,20 @@ const router = require('express').Router()
 const authController = require('../controllers/auth.controller')
 const userController = require('../controllers/user.controller')
 const uploadController = require('../controllers/upload.controller')
+const imgUploader = require('../controllers/img-upload')
 const multer = require('multer')
-const upload = multer()
+// const upload = multer()
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, `${__dirname}/../../client/public/uploads/profil/`)
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.name + '.jpg')
+  }
+})
+
+const upload = multer({ storage: storage })
 
 // authentication
 router.post('/register', authController.signUp)
@@ -19,6 +31,6 @@ router.patch('/follow/:id', userController.follow)
 router.patch('/unfollow/:id', userController.unfollow)
 
 // upload profile picture
-router.post('/upload', upload.single('file'), uploadController.uploadProfil)
+router.post('/upload', upload.single('file'), imgUploader.uploadProfil)
 
 module.exports = router
