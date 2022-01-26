@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const authController = require('../controllers/auth.controller')
 const userController = require('../controllers/user.controller')
-// const uploadController = require('../controllers/upload.controller')
+const uploadController = require('../controllers/upload.controller')
 
 // authentication
 router.post('/register', authController.signUp)
@@ -16,7 +16,7 @@ router.delete('/:id', userController.deleteUser)
 router.patch('/follow/:id', userController.follow)
 router.patch('/unfollow/:id', userController.unfollow)
 
-// upload profile picture
-// router.post('/upload', avatarUpload.uploadProfil)
+// upload profile picture with multer
+// router.post('/upload', upload.single('file'), uploadController.uploadProfil)
 
 module.exports = router
