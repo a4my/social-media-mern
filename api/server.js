@@ -8,6 +8,7 @@ require('./config/db')
 const { checkUser, requireAuth } = require('./middleware/auth.middleware')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
+const path = require('path')
 const { uploadErrors } = require('./utils/errors.utils')
 const UserModel = require('./models/user.model')
 
@@ -33,18 +34,14 @@ app.post('/api/user/upload', async (req, res) => {
   req.files.file.name = fileName
 
   // store the uploaded file into a variable
-  let uploadedFile = req.files.file
-  let uploadPath = `${__dirname}/../client/public/uploads/profil/${fileName}`
-
-  // store the uploaded file on the server
-  await uploadedFile.mv(uploadPath, err => {
-    if (err) return res.status(500).send(err)
-    res.send('File uploaded!')
-  })
+  const uploadedFile = req.files.file
+  const uploadPath = `${__dirname}/../client/public/uploads/profil/${fileName}`
 
   // Add to datatbase
   try {
-    await UserModel.findByIdAndUpdate(
+    uploadedFile.mv(uploadPath)
+
+    UserModel.findByIdAndUpdate(
       req.body.userId,
       { $set: { picture: './uploads/profil/' + fileName } },
       { new: true, upsert: true, setDefaultsOnInsert: true },
@@ -56,6 +53,30 @@ app.post('/api/user/upload', async (req, res) => {
   } catch (err) {
     return res.status(500).send({ message: err })
   }
+
+  // store the uploaded file on the server
+  // uploadedFile.mv(uploadPath, err => {
+  //   if (err) {
+  //     res.status(500).send(err)
+  //   } else {
+  //     res.status(200).send({ status: 'File uploaded!', path: uploadPath })
+  //   }
+  // })
+
+  // Add to datatbase
+  // try {
+  // await UserModel.findByIdAndUpdate(
+  //   req.body.userId,
+  //   { $set: { picture: './uploads/profil/' + fileName } },
+  //   { new: true, upsert: true, setDefaultsOnInsert: true },
+  //   (err, docs) => {
+  //     if (!err) return res.send(docs)
+  //     else return res.status(500).send({ message: err })
+  //   }
+  // )
+  // } catch (err) {
+  //   return res.status(500).send({ message: err })
+  // }
 })
 
 // CORS config
