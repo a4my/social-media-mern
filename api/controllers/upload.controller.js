@@ -1,30 +1,32 @@
 const UserModel = require('../models/user.model')
-const fs = require('fs')
-const { promisify } = require('util')
-const pipeline = promisify(require('stream').pipeline)
 const { uploadErrors } = require('../utils/errors.utils')
 
-module.exports.uploadProfil = async (req, res) => {
+module.exports.uploadAvatar = async (req, res) => {
+  // check for errors
   try {
     if (!req.files.file.name.match(/\.(png|jpg|jpeg)$/))
       throw Error('invalid file')
-
-    if (req.file.size > 500000) throw Error('max size')
+    if (req.files.file.size > 500000) throw Error('max size')
+    if (!req.files || Object.keys(req.files).length === 0)
+      throw Error('no file')
   } catch (err) {
     const errors = uploadErrors(err)
     return res.status(201).json({ errors })
   }
+
+  // change the name of the file to the user's name
   const fileName = req.body.name + '.jpg'
+  req.files.file.name = fileName
 
-  await pipeline(
-    req.file.stream,
-    fs.createWriteStream(
-      `${__dirname}/../client/public/uploads/profil/${fileName}`
-    )
-  )
+  // store the uploaded file into a variable
+  const uploadedFile = req.files.file
+  const uploadPath = `${__dirname}/../client/public/uploads/profil/${fileName}`
 
+  // Add to datatbase
   try {
-    await UserModel.findByIdAndUpdate(
+    uploadedFile.mv(uploadPath)
+
+    UserModel.findByIdAndUpdate(
       req.body.userId,
       { $set: { picture: './uploads/profil/' + fileName } },
       { new: true, upsert: true, setDefaultsOnInsert: true },
