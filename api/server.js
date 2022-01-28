@@ -11,6 +11,7 @@ const fileUpload = require('express-fileupload')
 const path = require('path')
 const { uploadErrors } = require('./utils/errors.utils')
 const UserModel = require('./models/user.model')
+const postModel = require('./models/post.model')
 
 const app = express()
 
@@ -30,7 +31,7 @@ app.post('/api/user/upload', async (req, res) => {
   }
 
   // change the name of the file to the user's name
-  const fileName = req.body.name + '.jpg'
+  let fileName = req.body.name + '.jpg'
   req.files.file.name = fileName
 
   // store the uploaded file into a variable
@@ -53,30 +54,50 @@ app.post('/api/user/upload', async (req, res) => {
   } catch (err) {
     return res.status(500).send({ message: err })
   }
+})
 
-  // store the uploaded file on the server
-  // uploadedFile.mv(uploadPath, err => {
-  //   if (err) {
-  //     res.status(500).send(err)
-  //   } else {
-  //     res.status(200).send({ status: 'File uploaded!', path: uploadPath })
-  //   }
-  // })
+// Add a picture in a post
+app.post('/api/post/', async (req, res) => {
+  try {
+    if (!req.files.file.name.match(/\.(png|jpg|jpeg)$/))
+      throw Error('invalid file')
+    if (req.files.file.size > 500000) throw Error('max size')
+    if (!req.files || Object.keys(req.files).length === 0)
+      throw Error('no file')
+  } catch (err) {
+    const errors = uploadErrors(err)
+    return res.status(201).json({ errors })
+  }
 
-  // Add to datatbase
-  // try {
-  // await UserModel.findByIdAndUpdate(
-  //   req.body.userId,
-  //   { $set: { picture: './uploads/profil/' + fileName } },
-  //   { new: true, upsert: true, setDefaultsOnInsert: true },
-  //   (err, docs) => {
-  //     if (!err) return res.send(docs)
-  //     else return res.status(500).send({ message: err })
-  //   }
-  // )
-  // } catch (err) {
-  //   return res.status(500).send({ message: err })
-  // }
+  //   // change the name of the file to the user's name
+  let fileName = req.body.posterId + '-' + Date.now() + '.jpg'
+  req.files.file.name = fileName
+
+  // // store the uploaded file into a variable
+  const uploadedFile = req.files.file
+  const uploadPath = `${__dirname}/../client/public/uploads/posts/${fileName}`
+
+  console.log(fileName)
+  console.log(req.files)
+  console.log(req.body.posterId)
+
+  uploadedFile.mv(uploadPath)
+
+  const newPost = new postModel({
+    posterId: req.body.posterId,
+    message: req.body.message,
+    picture: req.file !== null ? './uploads/posts/' + fileName : '',
+    video: req.body.video,
+    likers: [],
+    comments: []
+  })
+
+  try {
+    const post = await newPost.save()
+    return res.status(201).json(post)
+  } catch (err) {
+    return res.status(400).send(err)
+  }
 })
 
 // CORS config
