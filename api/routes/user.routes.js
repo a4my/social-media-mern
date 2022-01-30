@@ -3,6 +3,8 @@ const authController = require('../controllers/auth.controller')
 const userController = require('../controllers/user.controller')
 // const uploadController = require('../controllers/upload.controller')
 
+// const cors = require('cors')
+
 // authentication
 router.post('/register', authController.signUp)
 router.post('/login', authController.signIn)
