@@ -13,6 +13,9 @@ const { uploadErrors } = require('./utils/errors.utils')
 const UserModel = require('./models/user.model')
 const postModel = require('./models/post.model')
 
+const helmet = require('helmet')
+const morgan = require('morgan')
+
 const app = express()
 
 // Avatar upload
@@ -38,7 +41,7 @@ app.post('/api/user/upload', async (req, res) => {
   const uploadedFile = req.files.file
   const uploadPath = `${__dirname}/../client/public/uploads/profil/${fileName}`
 
-  // Add to datatbase
+  // Add to server and datatbase
   try {
     uploadedFile.mv(uploadPath)
 
@@ -77,10 +80,6 @@ app.post('/api/post/', async (req, res) => {
   const uploadedFile = req.files.file
   const uploadPath = `${__dirname}/../client/public/uploads/posts/${fileName}`
 
-  console.log(fileName)
-  console.log(req.files)
-  console.log(req.body.posterId)
-
   uploadedFile.mv(uploadPath)
 
   const newPost = new postModel({
@@ -107,14 +106,19 @@ const corsOptions = {
   allowedHeaders: ['sessionId', 'Content-Type'],
   exposedHeaders: ['sessionId'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  preflightContinue: false
+  preflightContinue: false,
+  optionsSuccessStatus: 200
 }
+
 app.use(cors(corsOptions))
 
 // Middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+
+app.use(helmet())
+app.use(morgan('common'))
 
 // JWT
 app.get('*', checkUser)
