@@ -4,7 +4,7 @@ mongoose
   .connect(
     'mongodb+srv://' +
       process.env.DB_USER_PASS +
-      '@cluster2.t9xeo.mongodb.net/social-media-mern?retryWrites=true&w=majority',
+      '@cluster2.t9xeo.mongodb.net/social-media?retryWrites=true&w=majority',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
