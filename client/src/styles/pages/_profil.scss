@@ -224,7 +224,7 @@
       }
       h5 {
         background: $color-1;
-        color: $color-4;
+        color: $color-3;
         font-family: $font-1;
         margin: 20px 0;
         padding: 12px;
@@ -332,11 +332,12 @@
 
             button {
               background: $color-4;
+              color: $color-3;
               border-radius: 10px;
               margin-right: 6px;
 
               &:hover {
-                color: $color-3;
+                background: $color-1;
                 transform: translateX(2px);
               }
             }
