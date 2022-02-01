@@ -18,15 +18,15 @@
         display: inline-block;
 
         &:before {
-          transition: .15s ease;
+          transition: 0.15s ease;
           transform: scale(0);
           transform-origin: center;
           z-index: -10;
-          content: "";
+          content: '';
           height: 45px;
           width: 45px;
           position: absolute;
-          background: $color-4;
+          background: $color-1;
           border-radius: 50px;
         }
 
@@ -54,7 +54,7 @@
         position: relative;
 
         &::after {
-          content: "";
+          content: '';
           height: 40px;
           width: 5px;
           position: absolute;
