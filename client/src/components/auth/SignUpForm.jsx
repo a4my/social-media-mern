@@ -2,47 +2,49 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import SignInForm from './SignInForm'
 
-export default function SignUpForm() {
+const SignUpForm = () => {
   const [formSubmit, setFormSubmit] = useState(false)
-  const [username, setUsername] = useState('')
+  const [pseudo, setPseudo] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [controlPassword, setControlPassword] = useState('')
 
   const handleRegister = async e => {
     e.preventDefault()
     const terms = document.getElementById('terms')
-    const usernameError = document.querySelector('.pseudo.error')
-    // const emailError = document.querySelector('.email.error')
+    const pseudoError = document.querySelector('.pseudo.error')
+    const emailError = document.querySelector('.email.error')
     const passwordError = document.querySelector('.password.error')
-    const confirmPasswordError = document.querySelector(
+    const passwordConfirmError = document.querySelector(
       '.password-confirm.error'
     )
     const termsError = document.querySelector('.terms.error')
 
-    confirmPasswordError.innerHTML = ''
+    passwordConfirmError.innerHTML = ''
     termsError.innerHTML = ''
 
-    if (password !== confirmPassword || !terms.checked) {
-      if (password !== confirmPassword)
-        confirmPasswordError.innerHTML = 'Passwords do not match!'
+    if (password !== controlPassword || !terms.checked) {
+      if (password !== controlPassword)
+        passwordConfirmError.innerHTML =
+          'Les mots de passe ne correspondent pas'
 
       if (!terms.checked)
-        termsError.innerHTML = 'Please accept the terms and conditions.'
+        termsError.innerHTML = 'Veuillez valider les conditions générales'
     } else {
       await axios({
         method: 'post',
         url: `${process.env.REACT_APP_API_URL}api/user/register`,
         data: {
-          username,
+          pseudo,
           email,
           password
         }
       })
         .then(res => {
+          console.log(res)
           if (res.data.errors) {
-            usernameError.innerHTML = res.data.errors.username
-            email.innerHTML = res.data.errors.email
+            pseudoError.innerHTML = res.data.errors.pseudo
+            emailError.innerHTML = res.data.errors.email
             passwordError.innerHTML = res.data.errors.password
           } else {
             setFormSubmit(true)
@@ -58,55 +60,51 @@ export default function SignUpForm() {
         <>
           <SignInForm />
           <span></span>
-          <h4 className="success">You are now registered, please login.</h4>
+          <h4 className="success">Successfuly registered, please login now.</h4>
         </>
       ) : (
         <form action="" onSubmit={handleRegister} id="sign-up-form">
-          <label htmlFor="username">Username</label>
-          <br />
+          <label htmlFor="pseudo">Username</label>
           <br />
           <input
             type="text"
-            name="username"
-            id="username"
-            onChange={e => setUsername(e.target.username)}
-            value={username}
+            name="pseudo"
+            id="pseudo"
+            onChange={e => setPseudo(e.target.value)}
+            value={pseudo}
           />
           <div className="pseudo error"></div>
           <br />
           <label htmlFor="email">Email</label>
           <br />
-          <br />
           <input
             type="text"
             name="email"
             id="email"
-            onChange={e => setEmail(e.target.email)}
+            onChange={e => setEmail(e.target.value)}
             value={email}
           />
           <div className="email error"></div>
           <br />
           <label htmlFor="password">Password</label>
           <br />
-          <br />
           <input
             type="password"
             name="password"
             id="password"
-            onChange={e => setPassword(e.target.password)}
+            onChange={e => setPassword(e.target.value)}
             value={password}
           />
           <div className="password error"></div>
           <br />
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <br />
+          <label htmlFor="password-conf">Confirm password</label>
           <br />
           <input
             type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            onChange={e => setConfirmPassword(e.target.confirmPassword)}
-            value={confirmPassword}
+            name="password"
+            id="password-conf"
+            onChange={e => setControlPassword(e.target.value)}
+            value={controlPassword}
           />
           <div className="password-confirm error"></div>
           <br />
@@ -114,15 +112,16 @@ export default function SignUpForm() {
           <label htmlFor="terms">
             I agree with the{' '}
             <a href="/" target="_blank" rel="noopener noreferrer">
-              terms and conditions
+              terms and conditions.
             </a>
-            .
           </label>
           <div className="terms error"></div>
           <br />
-          <input type="submit" value="Register" />
+          <input type="submit" value="Submit" />
         </form>
       )}
     </>
   )
 }
+
+export default SignUpForm
