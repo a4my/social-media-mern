@@ -1,5 +1,6 @@
 import React from 'react'
+import LeftNav from '../components/LeftNav'
 
 export default function Trending() {
-  return <h1>Trending section</h1>
+  return <LeftNav />
 }
