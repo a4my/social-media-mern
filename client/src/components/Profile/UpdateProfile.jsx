@@ -85,7 +85,7 @@ export default function UpdateProfile() {
                   if (user._id === userData.following[i]) {
                     return (
                       <li key={user._id}>
-                        <img src={user.picture} alt="user picture" />
+                        <img src={user.picture} alt="user" />
                         <h4>{user.pseudo}</h4>
                         <div className="follow-handler">
                           <FollowHandler
@@ -97,6 +97,7 @@ export default function UpdateProfile() {
                     )
                   }
                 }
+                return null
               })}
             </ul>
           </div>
@@ -115,7 +116,7 @@ export default function UpdateProfile() {
                   if (user._id === userData.followers[i]) {
                     return (
                       <li key={user._id}>
-                        <img src={user.picture} alt="user picture" />
+                        <img src={user.picture} alt="user" />
                         <h4>{user.pseudo}</h4>
                         <div className="follow-handler">
                           <FollowHandler
@@ -127,6 +128,7 @@ export default function UpdateProfile() {
                     )
                   }
                 }
+                return null
               })}
             </ul>
           </div>
