@@ -14,6 +14,15 @@ module.exports.readPost = (req, res) => {
   }).sort({ createdAt: -1 })
 }
 
+module.exports.getPost = async (req, res) => {
+  try {
+    const post = await PostModel.findById(req.params.id)
+    res.status(200).json(post)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
 module.exports.createPost = async (req, res) => {
   let fileName
 
@@ -87,65 +96,21 @@ module.exports.deletePost = (req, res) => {
   })
 }
 
-module.exports.likePost = async (req, res) => {
-  if (!ObjectID.isValid(req.params.id))
-    return res.status(400).send('ID unknown : ' + req.params.id)
-
+module.exports.likeUnlikePost = async (req, res) => {
   try {
-    await PostModel.findByIdAndUpdate(
-      req.params.id,
-      {
-        $addToSet: { likers: req.body.id }
-      },
-      { new: true },
-      (err, docs) => {
-        if (err) return res.status(400).send(err)
-      }
-    )
-    await UserModel.findByIdAndUpdate(
-      req.body.id,
-      {
-        $addToSet: { likes: req.params.id }
-      },
-      { new: true },
-      (err, docs) => {
-        if (!err) res.send(docs)
-        else return res.status(400).send(err)
-      }
-    )
+    const post = await PostModel.findById(req.params.id)
+    const user = await UserModel.findById(req.body.id)
+    if (!post.likers.includes(req.body.id)) {
+      await post.updateOne({ $push: { likers: req.body.id } })
+      await user.updateOne({ $push: { likes: req.params.id } })
+      res.status(200).json('The post has been liked')
+    } else {
+      await post.updateOne({ $pull: { likers: req.body.id } })
+      await user.updateOne({ $pull: { likes: req.params.id } })
+      res.status(200).json('The post has been disliked')
+    }
   } catch (err) {
-    return res.status(400).send(err)
-  }
-}
-
-module.exports.unlikePost = async (req, res) => {
-  if (!ObjectID.isValid(req.params.id))
-    return res.status(400).send('ID unknown : ' + req.params.id)
-
-  try {
-    await PostModel.findByIdAndUpdate(
-      req.params.id,
-      {
-        $pull: { likers: req.body.id }
-      },
-      { new: true },
-      (err, docs) => {
-        if (err) return res.status(400).send(err)
-      }
-    )
-    await UserModel.findByIdAndUpdate(
-      req.body.id,
-      {
-        $pull: { likes: req.params.id }
-      },
-      { new: true },
-      (err, docs) => {
-        if (!err) res.send(docs)
-        else return res.status(400).send(err)
-      }
-    )
-  } catch (err) {
-    return res.status(400).send(err)
+    res.status(500).json(err)
   }
 }
 
