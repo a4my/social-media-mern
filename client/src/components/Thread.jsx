@@ -1,22 +1,34 @@
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosts } from '../actions/post.actions'
 import Card from './Post/Card'
 import { isEmpty } from './utils'
 
-export default function Thread() {
+const Thread = () => {
   const [loadPost, setLoadPost] = useState(true)
+  const [count, setCount] = useState(5)
   const dispatch = useDispatch()
   const posts = useSelector(state => state.postReducer)
 
+  const loadMore = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >
+      document.scrollingElement.scrollHeight
+    ) {
+      setLoadPost(true)
+    }
+  }
+
   useEffect(() => {
     if (loadPost) {
-      dispatch(getPosts())
+      dispatch(getPosts(count))
       setLoadPost(false)
+      setCount(count + 5)
     }
-  }, [loadPost, dispatch])
+
+    window.addEventListener('scroll', loadMore)
+    return () => window.removeEventListener('scroll', loadMore)
+  }, [loadPost, dispatch, count])
 
   return (
     <div className="thread-container">
@@ -29,3 +41,5 @@ export default function Thread() {
     </div>
   )
 }
+
+export default Thread
