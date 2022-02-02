@@ -1,26 +1,23 @@
-import React, { useContext } from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UidContext } from '../layout/AppContext'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import { useDispatch } from 'react-redux'
-import { likePost } from '../../actions/post.actions'
+import { likeUnlikePost } from '../../actions/post.actions'
 
-export default function LikeButton({ post }) {
+const LikeButton = ({ post }) => {
   const [liked, setLiked] = useState(false)
   const uid = useContext(UidContext)
   const dispatch = useDispatch()
 
-  const like = () => {
-    dispatch(likePost(post._id, uid))
-    setLiked(true)
+  const likeHandler = () => {
+    dispatch(likeUnlikePost(post._id, uid))
+    setLiked(!liked)
   }
-
-  const unlike = () => {}
 
   useEffect(() => {
     if (post.likers.includes(uid)) setLiked(true)
+    else setLiked(false)
   }, [uid, post.likers, liked])
 
   return (
@@ -31,15 +28,22 @@ export default function LikeButton({ post }) {
           position={['bottom center', 'bottom right', 'bottom left']}
           closeOnDocumentClick
         >
-          <div>You need to login to like a post!</div>
+          <div>Please login to like a post</div>
         </Popup>
       )}
       {uid && liked === false && (
-        <img src="./img/icons/heart.svg" alt="like" onClick={like} />
+        <img src="./img/icons/heart.svg" onClick={likeHandler} alt="like" />
       )}
       {uid && liked && (
-        <img src="./img/icons/heart-filled.svg" alt="unlike" onClick={unlike} />
+        <img
+          src="./img/icons/heart-filled.svg"
+          onClick={likeHandler}
+          alt="unlike"
+        />
       )}
+      <span>{post.likers.length}</span>
     </div>
   )
 }
+
+export default LikeButton
