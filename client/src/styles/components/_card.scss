@@ -128,7 +128,7 @@
       }
       .button-container {
         .btn {
-          background: $color-2;
+          background: $color-1;
           width: 240px;
           transform: translateY(-3px);
 
@@ -244,7 +244,14 @@
             font-family: $font-1;
           }
           span {
-            transform: translateX(6px);
+            transform: translateX(6px, 4px);
+            cursor: pointer;
+
+            img {
+              box-shadow: none;
+              height: 15px;
+              width: 15px;
+            }
           }
         }
 
@@ -277,7 +284,7 @@
           margin-top: 14px;
           label {
             background: $white;
-            color: $color-1;
+            color: $color-3;
             padding: 6px 12px 5px;
             border-radius: 10px;
             cursor: pointer;
@@ -292,6 +299,7 @@
           input[type='text'] {
             margin: 4px 0;
             background: $white;
+            color: $color-3;
             font-size: 1.15rem;
             padding: 16px;
             width: 100%;
@@ -341,6 +349,11 @@
         border-radius: 10px;
         padding: 20px;
         font-size: 1.4rem;
+        color: $color-3;
+
+        &::placeholder {
+          color: $color-1;
+        }
 
         &:focus {
           box-shadow: 0 0 2px rgba(51, 51, 51, 0.5);
