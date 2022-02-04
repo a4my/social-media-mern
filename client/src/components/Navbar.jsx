@@ -33,7 +33,7 @@ export default function Navbar() {
           <ul>
             <li></li>
             <li>
-              <NavLink to="/profil">
+              <NavLink end to="/">
                 <img src="./img/icons/login.svg" alt="login" />
               </NavLink>
             </li>
