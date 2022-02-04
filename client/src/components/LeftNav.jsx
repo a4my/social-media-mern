@@ -30,20 +30,20 @@ export default function LeftNav() {
               '' + (isActive ? 'active-left-nav' : '')
             }
           >
-            <img src="./img/icons/gear.svg" alt="settings" />
-          </NavLink>
-          <br />
-          <NavLink
-            to="/profil"
-            className={({ isActive }) =>
-              '' + (isActive ? 'active-left-nav' : '')
-            }
-          >
             <img src="./img/icons/user.svg" alt="profil" />
           </NavLink>
           <br />
           <NavLink
-            to="/profil"
+            to="/settings"
+            className={({ isActive }) =>
+              '' + (isActive ? 'active-left-nav' : '')
+            }
+          >
+            <img src="./img/icons/gear.svg" alt="settings" />
+          </NavLink>
+          <br />
+          <NavLink
+            to="/chat"
             className={({ isActive }) =>
               '' + (isActive ? 'active-left-nav' : '')
             }
