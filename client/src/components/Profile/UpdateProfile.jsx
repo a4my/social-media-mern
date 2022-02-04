@@ -25,6 +25,7 @@ export default function UpdateProfile() {
     <div className="profil-container">
       <LeftNav />
       <h1>Profile of {userData.pseudo}</h1>
+
       <div className="update-container">
         <div className="left-part">
           <h3>Profile picture</h3>
@@ -61,17 +62,22 @@ export default function UpdateProfile() {
               setFollowingPopup(true)
             }}
           >
-            Following: {userData.following ? userData.following.length : ''}
+            Following
+            {userData.following && userData.following.length > 0 ? 's' : null}:{' '}
+            {userData.following ? userData.following.length : ''}
           </h5>
           <h5
             onClick={() => {
               setFollowersPopup(true)
             }}
           >
-            Followers: {userData.followers ? userData.followers.length : ''}
+            Follower
+            {userData.followers && userData.followers.length > 0 ? 's' : null}:{' '}
+            {userData.followers ? userData.followers.length : ''}
           </h5>
         </div>
       </div>
+
       {followingPopup && (
         <div className="popup-profil-container">
           <div className="modal">
