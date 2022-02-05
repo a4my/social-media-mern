@@ -4,10 +4,11 @@ import { isEmpty, timestampParser } from '../utils'
 import { NavLink } from 'react-router-dom'
 import { addPost, getPosts } from '../../actions/post.actions'
 
-const NewPostForm = () => {
+const NewPostForm = props => {
   const [isLoading, setIsLoading] = useState(true)
   const [message, setMessage] = useState('')
   const [postPicture, setPostPicture] = useState(null)
+  const [isProfilePage, setIsProfilePage] = useState(props.isProfilePage)
   const [video, setVideo] = useState('')
   const [file, setFile] = useState()
   const userData = useSelector(state => state.userReducer)
@@ -70,23 +71,35 @@ const NewPostForm = () => {
         <i className="fas fa-spinner fa-pulse"></i>
       ) : (
         <>
-          <div className="data">
-            <p>
-              <span>{userData.following ? userData.following.length : 0}</span>{' '}
-              Following
-              {userData.following && userData.following.length > 1 ? 's' : null}
-            </p>
-            <p>
-              <span>{userData.followers ? userData.followers.length : 0}</span>{' '}
-              Follower
-              {userData.followers && userData.followers.length > 1 ? 's' : null}
-            </p>
-          </div>
-          <NavLink exact to="/profil">
-            <div className="user-info">
-              <img src={userData.picture} alt="user-img" />
-            </div>
-          </NavLink>
+          {isProfilePage ? null : (
+            <>
+              <div className="data">
+                <p>
+                  <span>
+                    {userData.following ? userData.following.length : 0}
+                  </span>{' '}
+                  Following
+                  {userData.following && userData.following.length > 1
+                    ? 's'
+                    : null}
+                </p>
+                <p>
+                  <span>
+                    {userData.followers ? userData.followers.length : 0}
+                  </span>{' '}
+                  Follower
+                  {userData.followers && userData.followers.length > 1
+                    ? 's'
+                    : null}
+                </p>
+              </div>
+              <NavLink exact to="/profil">
+                <div className="user-info">
+                  <img src={userData.picture} alt="user-img" />
+                </div>
+              </NavLink>
+            </>
+          )}
           <div className="post-form">
             <textarea
               name="message"
