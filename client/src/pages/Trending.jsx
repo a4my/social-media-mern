@@ -16,6 +16,7 @@ export default function Trending() {
       <div className="trending-page">
         <LeftNav />
         <div className="main">
+          <h1>Trending posts of the week</h1>
           <ul>
             {!isEmpty(trendList[0]) &&
               trendList.map(post => <Card post={post} key={post._id} />)}
