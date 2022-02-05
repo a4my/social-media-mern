@@ -16,14 +16,18 @@ const Home = () => {
       <LeftNav />
       <div className="main">
         <div className="home-header">
-          {uid ? <NewPostForm /> : <Auth signin={true} signup={false} />}
+          {uid ? (
+            <NewPostForm isProfilePage={false} />
+          ) : (
+            <Auth signin={true} signup={false} />
+          )}
         </div>
-        {uid ? <Thread /> : ''}
+        {uid ? <Thread isProfilePage={false} /> : ''}
       </div>
       <div className="right-side">
         <div className="right-side-container">
           <div className="wrapper">
-            <Trends />
+            {uid && <Trends />}
             {uid && <FriendsList />}
             {uid && <FriendsHint />}
           </div>
