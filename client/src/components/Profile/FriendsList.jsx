@@ -26,7 +26,7 @@ export default function FriendsList() {
       if (window.innerHeight > 780) {
         array.length = 3
       } else if (window.innerHeight > 720) {
-        array.length = 3
+        array.length = 2
       } else if (window.innerHeight > 615) {
         array.length = 2
       } else if (window.innerHeight > 540) {
