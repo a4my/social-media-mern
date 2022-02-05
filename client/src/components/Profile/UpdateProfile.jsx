@@ -24,7 +24,9 @@ export default function UpdateProfile() {
   return (
     <div className="profil-container">
       <LeftNav />
-      <h1>Profile of {userData.pseudo}</h1>
+      <div className="title-container">
+        <h1>Settings of {userData.pseudo}</h1>
+      </div>
 
       <div className="update-container">
         <div className="left-part">
@@ -49,6 +51,7 @@ export default function UpdateProfile() {
               <>
                 <textarea
                   typeof="text"
+                  maxLength="200"
                   defaultValue={userData.bio}
                   onChange={e => setBio(e.target.value)}
                 ></textarea>
@@ -63,8 +66,9 @@ export default function UpdateProfile() {
             }}
           >
             Following
-            {userData.following && userData.following.length > 0 ? 's' : null}:{' '}
-            {userData.following ? userData.following.length : ''}
+            {userData.following && userData.following.length > 0
+              ? 's'
+              : null}: {userData.following ? userData.following.length : ''}
           </h5>
           <h5
             onClick={() => {
@@ -72,8 +76,9 @@ export default function UpdateProfile() {
             }}
           >
             Follower
-            {userData.followers && userData.followers.length > 0 ? 's' : null}:{' '}
-            {userData.followers ? userData.followers.length : ''}
+            {userData.followers && userData.followers.length > 0
+              ? 's'
+              : null}: {userData.followers ? userData.followers.length : ''}
           </h5>
         </div>
       </div>
