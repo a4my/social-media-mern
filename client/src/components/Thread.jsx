@@ -4,11 +4,13 @@ import { getPosts } from '../actions/post.actions'
 import Card from './Post/Card'
 import { isEmpty } from './utils'
 
-const Thread = () => {
+const Thread = props => {
+  const [isProfilePage, setIsProfilePage] = useState(props.isProfilePage)
   const [loadPost, setLoadPost] = useState(true)
   const [count, setCount] = useState(5)
   const dispatch = useDispatch()
   const posts = useSelector(state => state.postReducer)
+  const userData = useSelector(state => state.userReducer)
 
   const loadMore = () => {
     if (
@@ -33,9 +35,18 @@ const Thread = () => {
   return (
     <div className="thread-container">
       <ul>
-        {!isEmpty(posts[0]) &&
+        {/* {!isEmpty(posts[0]) &&
           posts.map(post => {
             return <Card post={post} key={post._id} />
+          })} */}
+        {isProfilePage &&
+          !isEmpty(posts[0]) &&
+          posts.map(post => {
+            for (let i = 0; i < posts.length; i++) {
+              if (posts[i].posterId === userData._id) {
+                return <Card post={post} key={post._id} />
+              }
+            }
           })}
       </ul>
     </div>
