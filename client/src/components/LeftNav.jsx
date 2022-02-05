@@ -25,7 +25,7 @@ export default function LeftNav() {
           </NavLink>
           <br />
           <NavLink
-            to="/profil"
+            to="/profile"
             className={({ isActive }) =>
               '' + (isActive ? 'active-left-nav' : '')
             }
