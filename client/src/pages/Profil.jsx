@@ -6,6 +6,7 @@ import Thread from '../components/Thread'
 import Auth from '../components/auth/Auth'
 import FriendsHint from '../components/Profile/FriendsHint'
 import FriendsList from '../components/Profile/FriendsList'
+import AboutMe from '../components/Profile/AboutMe'
 
 const Home = () => {
   const uid = useContext(UidContext)
@@ -14,10 +15,15 @@ const Home = () => {
     <div className="profil">
       <LeftNav />
       <div className="main">
+        {uid && <AboutMe />}
         <div className="profil-header">
-          {uid ? <NewPostForm /> : <Auth signin={true} signup={false} />}
+          {uid ? (
+            <NewPostForm isProfilePage={true} />
+          ) : (
+            <Auth signin={true} signup={false} />
+          )}
         </div>
-        {/* {uid ? <Thread /> : ''} */}
+        {uid ? <Thread isProfilePage={true} /> : ''}
       </div>
       <div className="right-side">
         <div className="right-side-container">
