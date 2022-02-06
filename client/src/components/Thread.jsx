@@ -5,7 +5,7 @@ import Card from './Post/Card'
 import { isEmpty } from './utils'
 
 const Thread = props => {
-  const [isProfilePage, setIsProfilePage] = useState(props.isProfilePage)
+  const [isProfilePage] = useState(props.isProfilePage)
   const [loadPost, setLoadPost] = useState(true)
   const [count, setCount] = useState(5)
   const dispatch = useDispatch()
@@ -30,24 +30,55 @@ const Thread = props => {
 
     window.addEventListener('scroll', loadMore)
     return () => window.removeEventListener('scroll', loadMore)
-  }, [loadPost, dispatch, count])
+  }, [loadPost, dispatch, count, posts, userData])
 
   return (
     <div className="thread-container">
       <ul>
-        {/* {!isEmpty(posts[0]) &&
+        {/* Original code */}
+        {!isEmpty(posts[0]) &&
           posts.map(post => {
             return <Card post={post} key={post._id} />
-          })} */}
-        {isProfilePage &&
+          })}
+
+        {/* {isProfilePage &&
           !isEmpty(posts[0]) &&
           posts.map(post => {
-            for (let i = 0; i < posts.length; i++) {
-              if (posts[i].posterId === userData._id) {
+            if (post.posterId === userData._id) {
+              return <Card post={post} key={post._id} />
+            } else return null
+          })} */}
+
+        {/* {isProfilePage === false &&
+          !isEmpty(posts[0]) &&
+          posts.map(post => {
+            for (let i = 0; i < userData.following.length; i++) {
+              if (
+                post.posterId === userData.following[i] ||
+                post.posterId === userData._id
+              ) {
                 return <Card post={post} key={post._id} />
               }
             }
-          })}
+            return null
+          })} */}
+
+        {/* {isProfilePage && !isEmpty(posts[0])
+          ? posts.map(post => {
+              if (post.posterId === userData._id) {
+                return <Card post={post} key={post._id} />
+              }
+            })
+          : posts.map(post => {
+              for (let i = 0; i < posts.length; i++) {
+                if (
+                  post.posterId === userData.following[i] ||
+                  post.posterId === userData._id
+                ) {
+                  return <Card post={post} key={post._id} />
+                }
+              }
+            })} */}
       </ul>
     </div>
   )
