@@ -12,7 +12,7 @@ export default function Layout() {
     <Router>
       <Navbar />
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/trending" element={<Trending />} />
         <Route path="/profile" element={<Profil />} />
         <Route path="/settings" element={<Settings />} />
