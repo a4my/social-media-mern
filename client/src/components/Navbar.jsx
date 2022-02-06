@@ -12,7 +12,7 @@ export default function Navbar() {
     <nav>
       <div className="nav-container">
         <div className="logo">
-          <NavLink to="/">
+          <NavLink to="/home">
             <div className="logo">
               <img src="./img/icon.png" alt="icon" />
               <h3>Connect</h3>
@@ -23,7 +23,7 @@ export default function Navbar() {
           <ul>
             <li></li>
             <li className="welcome">
-              <NavLink to="/profil">
+              <NavLink to="/profile">
                 <h5>Welcome {userData.pseudo}</h5>
               </NavLink>
             </li>
@@ -33,7 +33,7 @@ export default function Navbar() {
           <ul>
             <li></li>
             <li>
-              <NavLink end to="/">
+              <NavLink to="/home">
                 <img src="./img/icons/login.svg" alt="login" />
               </NavLink>
             </li>
