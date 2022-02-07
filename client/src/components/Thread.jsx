@@ -36,17 +36,17 @@ const Thread = props => {
     <div className="thread-container">
       <ul>
         {/* Original code */}
-        {!isEmpty(posts[0]) &&
+        {/* {!isEmpty(posts[0]) &&
           posts.map(post => {
             return <Card post={post} key={post._id} />
-          })}
+          })} */}
 
         {/* {isProfilePage &&
           !isEmpty(posts[0]) &&
           posts.map(post => {
             if (post.posterId === userData._id) {
               return <Card post={post} key={post._id} />
-            } else return null
+            }
           })} */}
 
         {/* {isProfilePage === false &&
@@ -67,10 +67,10 @@ const Thread = props => {
           ? posts.map(post => {
               if (post.posterId === userData._id) {
                 return <Card post={post} key={post._id} />
-              }
+              } else return null
             })
           : posts.map(post => {
-              for (let i = 0; i < posts.length; i++) {
+              for (let i = 0; i <ul userData.following.length; i++) {
                 if (
                   post.posterId === userData.following[i] ||
                   post.posterId === userData._id
@@ -78,6 +78,7 @@ const Thread = props => {
                   return <Card post={post} key={post._id} />
                 }
               }
+              return null
             })} */}
       </ul>
     </div>
