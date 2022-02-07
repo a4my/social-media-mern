@@ -1,11 +1,14 @@
 @import './settings';
 @import './pages/home';
+@import './pages/profile';
 @import './components/navbar.scss';
 @import './components/card.scss';
 @import './components/connectionForm.scss';
-@import './pages/profil.scss';
+@import './pages/settings.scss';
 @import './components/newPostForm.scss';
 @import './components/friendsHint.scss';
 @import './components/trends.scss';
 @import './components/leftNav.scss';
+@import './components/friendsList.scss';
+@import './components/aboutme.scss';
 @import './pages/trending.scss';

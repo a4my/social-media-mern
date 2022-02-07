@@ -1,7 +1,8 @@
 .card-container {
   display: grid;
   grid-template-columns: 66px 1fr;
-  border: 2px solid $color-2;
+  border: 4px solid $color-2;
+  outline: 1px solid $color-1;
   margin: 10px;
   padding: 16px;
   border-radius: 10px;
@@ -28,7 +29,7 @@
     img {
       height: 52px;
       width: 52px;
-      border-radius: 10px;
+      border-radius: 1rem;
       box-shadow: 1px 1px 3px rgba(51, 51, 51, 0.192);
       object-fit: cover;
 
@@ -123,6 +124,7 @@
       textarea {
         font-size: 1.3rem;
         border: 1px solid $color-2;
+        color: $color-3;
         padding: 10px;
         border-radius: 10px;
       }
@@ -352,7 +354,7 @@
         color: $color-3;
 
         &::placeholder {
-          color: $color-1;
+          color: $color-3;
         }
 
         &:focus {
