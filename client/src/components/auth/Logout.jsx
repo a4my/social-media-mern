@@ -18,7 +18,7 @@ const Logout = () => {
       .then(() => removeCookie('jwt'))
       .catch(err => console.log(err))
 
-    window.location = '/home'
+    window.location = '/'
   }
 
   return (
