@@ -13,6 +13,7 @@ export default function Trends() {
   useEffect(() => {
     if (!isEmpty(posts[0])) {
       const postsArr = Object.keys(posts).map(i => posts[i])
+
       let sortedArray = postsArr.sort((a, b) => {
         return b.likers.length - a.likers.length
       })
