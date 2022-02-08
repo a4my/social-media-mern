@@ -11,6 +11,29 @@ const Thread = props => {
   const dispatch = useDispatch()
   const posts = useSelector(state => state.postReducer)
   const userData = useSelector(state => state.userReducer)
+  const [followingPosts, setFollowingPosts] = useState([])
+
+  let finalArr = []
+
+  const filterPosts = async () => {
+    await posts.map(post => {
+      for (let i = 0; i < userData.following.length; i++) {
+        if (
+          post.posterId === userData.following[i] ||
+          post.posterId === userData._id
+        ) {
+          finalArr.push(post)
+          // console.log(finalArr)
+        }
+        setFollowingPosts(finalArr)
+      }
+      return null
+    })
+  }
+
+  useEffect(() => {
+    filterPosts()
+  }, [posts, userData])
 
   const loadMore = () => {
     if (
@@ -41,13 +64,25 @@ const Thread = props => {
             return <Card post={post} key={post._id} />
           })} */}
 
-        {/* {isProfilePage &&
+        {isProfilePage &&
           !isEmpty(posts[0]) &&
           posts.map(post => {
             if (post.posterId === userData._id) {
               return <Card post={post} key={post._id} />
-            }
+            } else return null
+          })}
+
+        {/* {isProfilePage === false &&
+          !isEmpty(posts[0]) &&
+          posts.map(post => {
+            return <Card post={post} key={post._id} />
           })} */}
+
+        {isProfilePage === false &&
+          !isEmpty(followingPosts[0]) &&
+          followingPosts.map(post => {
+            return <Card post={post} key={post._id} />
+          })}
 
         {/* {isProfilePage === false &&
           !isEmpty(posts[0]) &&
@@ -60,6 +95,7 @@ const Thread = props => {
                 return <Card post={post} key={post._id} />
               }
             }
+
             return null
           })} */}
 
