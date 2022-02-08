@@ -3,7 +3,7 @@ import axios from 'axios'
 // posts
 export const GET_POSTS = 'GET_POSTS'
 export const GET_ALL_POSTS = 'GET_ALL_POSTS'
-// export const GET_USER_POSTS = 'GET_USER_POSTS'
+// export const GET_FOLLOWING_POSTS = 'GET_FOLLOWING_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const LIKE_UNLIKE_POST = 'LIKE_UNLIKE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
@@ -29,7 +29,6 @@ export const getPosts = num => {
         const array = res.data.slice(0, num)
         dispatch({ type: GET_POSTS, payload: array })
         dispatch({ type: GET_ALL_POSTS, payload: res.data })
-        // dispatch({ type: GET_USER_POSTS, payload: res.data })
       })
       .catch(err => console.log(err))
   }
@@ -139,3 +138,9 @@ export const getTrends = sortedArray => {
     dispatch({ type: GET_TRENDS, payload: sortedArray })
   }
 }
+
+// export const getFollowingPosts = followingPosts => {
+//   return dispatch => {
+//     dispatch({ type: GET_FOLLOWING_POSTS, payload: followingPosts })
+//   }
+// }
