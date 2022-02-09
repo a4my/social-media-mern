@@ -14,19 +14,25 @@ const Thread = props => {
   const [followingPosts, setFollowingPosts] = useState([])
 
   let finalArr = []
+  console.log(userData, posts)
 
   const filterPosts = async () => {
     await posts.map(post => {
       for (let i = 0; i < userData.following.length; i++) {
         if (
-          post.posterId === userData.following[i] ||
-          post.posterId === userData._id
+          post.posterId === userData.following[i]
+          // post.posterId === userData._id
         ) {
           finalArr.push(post)
-          // console.log(finalArr)
         }
-        setFollowingPosts(finalArr)
       }
+      if (
+        // post.posterId === userData.following[i]
+        post.posterId === userData._id
+      ) {
+        finalArr.push(post)
+      }
+      setFollowingPosts(finalArr)
       return null
     })
   }
