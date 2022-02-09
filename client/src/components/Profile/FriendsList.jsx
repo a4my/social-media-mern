@@ -3,11 +3,14 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { isEmpty } from '../utils'
+import FollowHandler from './FollowHandler'
 
 export default function FriendsList() {
   const [isLoading, setIsLoading] = useState(true)
   const [playOnce, setPlayOnce] = useState(true)
   const [friendsSuggestion, setFriendsSuggestion] = useState([])
+  const [friendsPopup, setFriendsPopup] = useState(false)
+
   const userData = useSelector(state => state.userReducer)
   const usersData = useSelector(state => state.usersReducer)
 
@@ -46,7 +49,7 @@ export default function FriendsList() {
 
   return (
     <div className="myfriends-container">
-      <h4>My friends</h4>
+      <h4 onClick={() => setFriendsPopup(true)}>My friends</h4>
       {isLoading ? (
         <div className="icon">
           <i className="fas fa-spinner fa-pulse"></i>
@@ -61,12 +64,46 @@ export default function FriendsList() {
                     <li className="friend-hint" key={user}>
                       <img src={usersData[i].picture} alt="user" />
                       <p>{usersData[i].pseudo}</p>
+                      <span>
+                        <button>Visit</button>
+                      </span>
                     </li>
                   )
                 }
               }
             })}
         </ul>
+      )}
+      {friendsPopup && (
+        <div className="popup-profil-container">
+          <div className="modal">
+            <h3>My friends</h3>
+            <span className="cross" onClick={() => setFriendsPopup(false)}>
+              &#10005;
+            </span>
+            <ul>
+              {usersData.map(user => {
+                for (let i = 0; i < userData.following.length; i++) {
+                  if (user._id === userData.following[i]) {
+                    return (
+                      <li key={user._id}>
+                        <img src={user.picture} alt="user" />
+                        <h4>{user.pseudo}</h4>
+                        <div className="follow-handler">
+                          <FollowHandler
+                            idToFollow={user._id}
+                            type={'suggestion'}
+                          />
+                        </div>
+                      </li>
+                    )
+                  }
+                }
+                return null
+              })}
+            </ul>
+          </div>
+        </div>
       )}
     </div>
   )
