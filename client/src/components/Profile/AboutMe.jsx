@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { isEmpty } from '../utils'
+import { isEmpty, memberSinceParser } from '../utils'
 import FollowHandler from './FollowHandler'
 
 export default function AboutMe() {
@@ -24,16 +24,16 @@ export default function AboutMe() {
           )}
         </div>
       </div>
-      <div className="about-info">
+      {/* <div className="about-info">
         <div className="data">
           <img src="./img/icons/location.svg" alt="member since" />
-          <p>Ashford, UK</p>
+          <p>{userData.city}</p>
         </div>
         <div className="data">
           <img src="./img/icons/member-since.svg" alt="member since" />
-          <p>Joined February 2022</p>
+          <p>Joined {memberSinceParser(userData.createdAt)}</p>
         </div>
-      </div>
+      </div> */}
       <div className="about-footer">
         <h5
           onClick={() => {
