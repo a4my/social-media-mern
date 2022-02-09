@@ -3,6 +3,9 @@ import axios from 'axios'
 export const GET_USER = 'GET_USER'
 export const UPLOAD_PICTURE = 'UPLOAD_PICTURE'
 export const UPDATE_BIO = 'UPDATE_BIO'
+export const UPDATE_CITY_DB = 'UPDATE_CITY_DB'
+export const UPDATE_FROM_DB = 'UPDATE_FROM_DB'
+export const UPDATE_JOB_DB = 'UPDATE_JOB_DB'
 export const FOLLOW_USER = 'FOLLOW_USER'
 export const UNFOLLOW_USER = 'UNFOLLOW_USER'
 
@@ -42,6 +45,48 @@ export const updateBio = (userId, bio) => {
     })
       .then(res => {
         dispatch({ type: UPDATE_BIO, payload: bio })
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+export const updateCityDb = (userId, city) => {
+  return dispatch => {
+    return axios({
+      method: 'put',
+      url: `${process.env.REACT_APP_API_URL}api/user/city/` + userId,
+      data: { city }
+    })
+      .then(res => {
+        dispatch({ type: UPDATE_CITY_DB, payload: city })
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+export const updateFromDb = (userId, from) => {
+  return dispatch => {
+    return axios({
+      method: 'put',
+      url: `${process.env.REACT_APP_API_URL}api/user/from/` + userId,
+      data: { from }
+    })
+      .then(res => {
+        dispatch({ type: UPDATE_FROM_DB, payload: from })
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+export const updateJobDb = (userId, job) => {
+  return dispatch => {
+    return axios({
+      method: 'put',
+      url: `${process.env.REACT_APP_API_URL}api/user/job/` + userId,
+      data: { job }
+    })
+      .then(res => {
+        dispatch({ type: UPDATE_JOB_DB, payload: job })
       })
       .catch(err => console.log(err))
   }
