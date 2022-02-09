@@ -32,6 +32,17 @@ export const timestampParser = num => {
   return date.toString()
 }
 
+export const memberSinceParser = num => {
+  let options = {
+    year: 'numeric',
+    month: 'long'
+  }
+
+  let date = new Date(num).toLocaleDateString('en-EN', options)
+
+  return date.toString()
+}
+
 export const isEmpty = value => {
   return (
     value === undefined ||
