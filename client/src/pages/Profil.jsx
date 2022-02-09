@@ -7,6 +7,7 @@ import Auth from '../components/auth/Auth'
 import FriendsHint from '../components/Profile/FriendsHint'
 import FriendsList from '../components/Profile/FriendsList'
 import AboutMe from '../components/Profile/AboutMe'
+import UserInfo from '../components/Profile/UserInfo'
 
 const Home = () => {
   const uid = useContext(UidContext)
@@ -28,6 +29,7 @@ const Home = () => {
       <div className="right-side">
         <div className="right-side-container">
           <div className="wrapper">
+            {uid && <UserInfo />}
             {uid && <FriendsList />}
             {uid && <FriendsHint />}
           </div>
