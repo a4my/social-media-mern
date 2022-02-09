@@ -46,6 +46,96 @@ module.exports.updateUser = async (req, res) => {
   }
 }
 
+module.exports.updateUserCity = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send('ID unknown : ' + req.params.id)
+
+  try {
+    await UserModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          city: req.body.city
+        }
+      },
+      { new: true, upsert: true, setDefaultsOnInsert: true },
+      (err, docs) => {
+        if (!err) {
+          return res.send(docs)
+        } else {
+          return res.status(500).send({ message: err })
+        }
+      }
+    )
+      .clone()
+      .catch(function (err) {
+        console.log(err)
+      })
+  } catch (err) {
+    return res.status(500).json({ message: err })
+  }
+}
+
+module.exports.updateUserFrom = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send('ID unknown : ' + req.params.id)
+
+  try {
+    await UserModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          from: req.body.from
+        }
+      },
+      { new: true, upsert: true, setDefaultsOnInsert: true },
+      (err, docs) => {
+        if (!err) {
+          return res.send(docs)
+        } else {
+          return res.status(500).send({ message: err })
+        }
+      }
+    )
+      .clone()
+      .catch(function (err) {
+        console.log(err)
+      })
+  } catch (err) {
+    return res.status(500).json({ message: err })
+  }
+}
+
+module.exports.updateUserJob = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send('ID unknown : ' + req.params.id)
+
+  try {
+    await UserModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          job: req.body.job
+        }
+      },
+      { new: true, upsert: true, setDefaultsOnInsert: true },
+      (err, docs) => {
+        if (!err) {
+          return res.send(docs)
+        } else {
+          return res.status(500).send({ message: err })
+        }
+      }
+    )
+      .clone()
+      .catch(function (err) {
+        console.log(err)
+      })
+  } catch (err) {
+    return res.status(500).json({ message: err })
+  }
+}
+
 module.exports.deleteUser = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send('ID unknown : ' + req.params.id)
