@@ -34,6 +34,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       maxlength: 1000
     },
+    city: {
+      type: String,
+      maxlength: 50
+    },
+    from: {
+      type: String,
+      maxlength: 50
+    },
+    job: {
+      type: String,
+      maxlength: 50
+    },
     followers: {
       type: [String]
     },
