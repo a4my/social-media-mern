@@ -96,21 +96,61 @@ module.exports.deletePost = (req, res) => {
   })
 }
 
-module.exports.likeUnlikePost = async (req, res) => {
+module.exports.likePost = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send('ID unknown : ' + req.params.id)
+
   try {
-    const post = await PostModel.findById(req.params.id)
-    const user = await UserModel.findById(req.body.id)
-    if (!post.likers.includes(req.body.id)) {
-      await post.updateOne({ $push: { likers: req.body.id } })
-      await user.updateOne({ $push: { likes: req.params.id } })
-      res.status(200).json('The post has been liked')
-    } else {
-      await post.updateOne({ $pull: { likers: req.body.id } })
-      await user.updateOne({ $pull: { likes: req.params.id } })
-      res.status(200).json('The post has been disliked')
-    }
+    await PostModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $addToSet: { likers: req.body.id }
+      },
+      { new: true }
+    )
+      .then(data => res.send(data))
+      .catch(err => res.status(500).send({ message: err }))
+
+    await UserModel.findByIdAndUpdate(
+      req.body.id,
+      {
+        $addToSet: { likes: req.params.id }
+      },
+      { new: true }
+    )
+      .then(data => res.send(data))
+      .catch(err => res.status(500).send({ message: err }))
   } catch (err) {
-    res.status(500).json(err)
+    return res.status(400).send(err)
+  }
+}
+
+module.exports.unlikePost = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send('ID unknown : ' + req.params.id)
+
+  try {
+    await PostModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: { likers: req.body.id }
+      },
+      { new: true }
+    )
+      .then(data => res.send(data))
+      .catch(err => res.status(500).send({ message: err }))
+
+    await UserModel.findByIdAndUpdate(
+      req.body.id,
+      {
+        $pull: { likes: req.params.id }
+      },
+      { new: true }
+    )
+      .then(data => res.send(data))
+      .catch(err => res.status(500).send({ message: err }))
+  } catch (err) {
+    return res.status(400).send(err)
   }
 }
 
