@@ -24,4 +24,7 @@ router.patch('/unfollow/:id', userController.unfollow)
 // upload profile picture with Express-FileUpload
 // router.post('/upload', uploadController.uploadAvatar)
 
+// New profile config
+// router.get('/profile/:id', userController.userInfo)
+
 module.exports = router
