@@ -5,7 +5,6 @@ import postReducer from './post.reducer'
 import errorReducer from './error.reducer'
 import allPostsReducer from './allPosts.reducer'
 import trendingReducer from './trending.reducer'
-import followingReducer from './followingPosts'
 
 export default combineReducers({
   userReducer,
@@ -13,6 +12,5 @@ export default combineReducers({
   postReducer,
   errorReducer,
   allPostsReducer,
-  trendingReducer,
-  followingReducer
+  trendingReducer
 })
