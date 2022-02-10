@@ -9,37 +9,60 @@ const Thread = props => {
   const [loadPost, setLoadPost] = useState(true)
   const [count, setCount] = useState(5)
   const dispatch = useDispatch()
-  const posts = useSelector(state => state.postReducer)
+  const posts = useSelector(state => state.allPostsReducer)
   const userData = useSelector(state => state.userReducer)
   const [followingPosts, setFollowingPosts] = useState([])
+  const [profilePosts, setProfilePosts] = useState([])
 
   let finalArr = []
-  console.log(userData, posts)
+  let finalUserPosts = []
+
+  const filterUserPosts = async () => {
+    if (!isEmpty(posts)) {
+      await posts.map(post => {
+        if (post.posterId === userData._id) {
+          finalUserPosts.push(post)
+        }
+        setProfilePosts(finalUserPosts)
+        return post
+      })
+    }
+  }
 
   const filterPosts = async () => {
-    await posts.map(post => {
-      for (let i = 0; i < userData.following.length; i++) {
+    if (!isEmpty(posts)) {
+      await posts.map(post => {
+        for (let i = 0; i < userData.following.length; i++) {
+          if (
+            post.posterId === userData.following[i]
+            // post.posterId === userData._id
+          ) {
+            finalArr.push(post)
+          }
+        }
         if (
-          post.posterId === userData.following[i]
-          // post.posterId === userData._id
+          // post.posterId === userData.following[i]
+          post.posterId === userData._id
         ) {
           finalArr.push(post)
         }
-      }
-      if (
-        // post.posterId === userData.following[i]
-        post.posterId === userData._id
-      ) {
-        finalArr.push(post)
-      }
-      setFollowingPosts(finalArr)
-      return null
-    })
+        setFollowingPosts(finalArr)
+        return post
+      })
+    }
   }
 
   useEffect(() => {
-    filterPosts()
-  }, [posts, userData])
+    if (isProfilePage) {
+      filterUserPosts()
+    } else {
+      filterPosts()
+    }
+  }, [posts, userData, isProfilePage])
+
+  // useEffect(() => {
+  //   filterPosts()
+  // }, [posts, userData])
 
   const loadMore = () => {
     if (
@@ -72,56 +95,15 @@ const Thread = props => {
 
         {isProfilePage &&
           !isEmpty(posts[0]) &&
-          posts.map(post => {
-            if (post.posterId === userData._id) {
-              return <Card post={post} key={post._id} />
-            } else return null
-          })}
-
-        {/* {isProfilePage === false &&
-          !isEmpty(posts[0]) &&
-          posts.map(post => {
+          profilePosts.map(post => {
             return <Card post={post} key={post._id} />
-          })} */}
+          })}
 
         {isProfilePage === false &&
           !isEmpty(followingPosts[0]) &&
           followingPosts.map(post => {
             return <Card post={post} key={post._id} />
           })}
-
-        {/* {isProfilePage === false &&
-          !isEmpty(posts[0]) &&
-          posts.map(post => {
-            for (let i = 0; i < userData.following.length; i++) {
-              if (
-                post.posterId === userData.following[i] ||
-                post.posterId === userData._id
-              ) {
-                return <Card post={post} key={post._id} />
-              }
-            }
-
-            return null
-          })} */}
-
-        {/* {isProfilePage && !isEmpty(posts[0])
-          ? posts.map(post => {
-              if (post.posterId === userData._id) {
-                return <Card post={post} key={post._id} />
-              } else return null
-            })
-          : posts.map(post => {
-              for (let i = 0; i <ul userData.following.length; i++) {
-                if (
-                  post.posterId === userData.following[i] ||
-                  post.posterId === userData._id
-                ) {
-                  return <Card post={post} key={post._id} />
-                }
-              }
-              return null
-            })} */}
       </ul>
     </div>
   )
