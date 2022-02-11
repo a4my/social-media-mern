@@ -8,8 +8,8 @@ router.get('/:id', postController.getPost)
 router.post('/', upload.single('file'), postController.createPost)
 router.put('/:id', postController.updatePost)
 router.delete('/:id', postController.deletePost)
-router.put('/like-post/:id', postController.likePost)
-router.put('/unlike-post/:id', postController.unlikePost)
+router.patch('/like-post/:id', postController.likePost)
+router.patch('/unlike-post/:id', postController.unlikePost)
 
 // comments
 router.patch('/comment-post/:id', postController.commentPost)

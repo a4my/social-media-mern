@@ -9,18 +9,17 @@ export const UNLIKE_POST = 'UNLIKE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
 
-// Comments
+// comments
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 
-// Errors
-export const GET_POST_ERRORS = 'GET_POST_ERRORS'
-
 // trends
 export const GET_TRENDS = 'GET_TRENDS'
 
-// post actions
+// errors
+export const GET_POST_ERRORS = 'GET_POST_ERRORS'
+
 export const getPosts = num => {
   return dispatch => {
     return axios
@@ -51,7 +50,7 @@ export const addPost = data => {
 export const likePost = (postId, userId) => {
   return dispatch => {
     return axios({
-      method: 'put',
+      method: 'patch',
       url: `${process.env.REACT_APP_API_URL}api/post/like-post/` + postId,
       data: { id: userId }
     })
@@ -65,7 +64,7 @@ export const likePost = (postId, userId) => {
 export const unlikePost = (postId, userId) => {
   return dispatch => {
     return axios({
-      method: 'put',
+      method: 'patch',
       url: `${process.env.REACT_APP_API_URL}api/post/unlike-post/` + postId,
       data: { id: userId }
     })
@@ -103,7 +102,6 @@ export const deletePost = postId => {
   }
 }
 
-// comment actions
 export const addComment = (postId, commenterId, text, commenterPseudo) => {
   return dispatch => {
     return axios({
@@ -146,7 +144,6 @@ export const deleteComment = (postId, commentId) => {
   }
 }
 
-// trends actions
 export const getTrends = sortedArray => {
   return dispatch => {
     dispatch({ type: GET_TRENDS, payload: sortedArray })

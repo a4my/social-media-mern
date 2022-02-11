@@ -43,6 +43,8 @@ export default function postReducer(state = initialState, action) {
           }
         } else return post
       })
+    case DELETE_POST:
+      return state.filter(post => post._id !== action.payload.postId)
     case EDIT_COMMENT:
       return state.map(post => {
         if (post._id === action.payload.postId) {
@@ -61,8 +63,6 @@ export default function postReducer(state = initialState, action) {
           }
         } else return post
       })
-    case DELETE_POST:
-      return state.filter(post => post._id !== action.payload.postId)
     case DELETE_COMMENT:
       return state.map(post => {
         if (post._id === action.payload.postId) {
