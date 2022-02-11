@@ -11,6 +11,7 @@ export default function FriendsHint() {
   const [friendsHint, setFriendsHint] = useState([])
   const userData = useSelector(state => state.userReducer)
   const usersData = useSelector(state => state.usersReducer)
+  const [suggestionsPopup, setSuggestionsPopup] = useState(false)
 
   useEffect(() => {
     const notFriendList = () => {
@@ -43,7 +44,7 @@ export default function FriendsHint() {
 
   return (
     <div className="get-friends-container">
-      <h4>Suggestions</h4>
+      <h4 onClick={() => setSuggestionsPopup(true)}>Suggestions</h4>
       {isLoading ? (
         <div className="icon">
           <i className="fas fa-spinner fa-pulse"></i>
@@ -68,6 +69,39 @@ export default function FriendsHint() {
               }
             })}
         </ul>
+      )}
+      {suggestionsPopup && (
+        <div className="popup-profil-container">
+          <div className="modal">
+            <h3>Suggestions</h3>
+            <span className="cross" onClick={() => setSuggestionsPopup(false)}>
+              &#10005;
+            </span>
+            <ul>
+              {usersData.map(user => {
+                if (
+                  user._id !== userData._id &&
+                  !user.followers.includes(userData._id)
+                ) {
+                  return (
+                    <li key={user._id}>
+                      <img src={user.picture} alt="user" />
+                      <h4>{user.pseudo}</h4>
+                      <div className="follow-handler">
+                        <FollowHandler
+                          idToFollow={user._id}
+                          type={'suggestion'}
+                        />
+                      </div>
+                    </li>
+                  )
+                }
+
+                return null
+              })}
+            </ul>
+          </div>
+        </div>
       )}
     </div>
   )
