@@ -83,22 +83,25 @@ export default function FriendsList() {
             </span>
             <ul>
               {usersData.map(user => {
-                for (let i = 0; i < userData.following.length; i++) {
-                  if (user._id === userData.following[i]) {
-                    return (
-                      <li key={user._id}>
-                        <img src={user.picture} alt="user" />
-                        <h4>{user.pseudo}</h4>
-                        <div className="follow-handler">
-                          <FollowHandler
-                            idToFollow={user._id}
-                            type={'suggestion'}
-                          />
-                        </div>
-                      </li>
-                    )
-                  }
+                if (
+                  user._id !== userData._id &&
+                  user.followers.includes(userData._id) &&
+                  user.following.includes(userData._id)
+                ) {
+                  return (
+                    <li key={user._id}>
+                      <img src={user.picture} alt="user" />
+                      <h4>{user.pseudo}</h4>
+                      <div className="follow-handler">
+                        <FollowHandler
+                          idToFollow={user._id}
+                          type={'suggestion'}
+                        />
+                      </div>
+                    </li>
+                  )
                 }
+
                 return null
               })}
             </ul>
