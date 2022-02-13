@@ -4,6 +4,7 @@ import { isEmpty, memberSinceParser } from '../utils'
 
 export default function UserInfo() {
   const userData = useSelector(state => state.userReducer)
+  const vowels = 'aeiouyAEIOUY'
 
   return (
     <div className="user-info-container">
@@ -25,7 +26,10 @@ export default function UserInfo() {
         {!isEmpty(userData.job) && (
           <div className="info-item">
             <img src="./img/icons/briefcase.svg" alt="work" />
-            <p>Works as a {userData.job}</p>
+            <p>
+              Works as a{userData.job.match('^[aieouAIEOU].*') ? 'n' : null}{' '}
+              {userData.job}
+            </p>
           </div>
         )}
 
