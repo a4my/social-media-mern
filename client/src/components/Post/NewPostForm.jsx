@@ -104,7 +104,9 @@ const NewPostForm = props => {
             <textarea
               name="message"
               id="message"
-              placeholder={`What's in your mind ${userData.pseudo}?`}
+              placeholder={`What's in your mind ${
+                userData.pseudo.split(' ')[0]
+              }?`}
               onChange={e => setMessage(e.target.value)}
               value={message}
             />
