@@ -14,7 +14,7 @@ export default function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/trending" element={<Trending />} />
-        <Route path="/profile" element={<Profil />} />
+        <Route exact path="/profile" element={<Profil />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/chat" element={<Chat />} />
       </Routes>
