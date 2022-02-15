@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { isEmpty, memberSinceParser } from '../utils'
+import { isEmpty } from '../utils'
 import FollowHandler from './FollowHandler'
 
 export default function AboutMe() {
