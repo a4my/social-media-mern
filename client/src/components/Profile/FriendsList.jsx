@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -61,7 +62,7 @@ export default function FriendsList() {
               for (let i = 0; i < usersData.length; i++) {
                 if (user === usersData[i]._id) {
                   return (
-                    <li className="friend-hint" key={user}>
+                    <li className="friend-hint" key={user._id}>
                       <img src={usersData[i].picture} alt="user" />
                       <p>{usersData[i].pseudo}</p>
                       <span>
